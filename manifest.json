@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "GPII Website connector",
+  "version": "0.1",
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "externally_connectable": {
+    "ids": ["*"],
+    "matches": ["*://*.domain.lan/*"]
+  },
+  "background": {
+    "scripts": [
+      "background.js",
+      "lib/socket.io.js"
+    ]
+  }
+}
