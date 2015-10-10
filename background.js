@@ -1,3 +1,19 @@
+/*
+ * GPII Website Connector
+ *
+ * Copyright 2015 Emergya
+ *
+ * Licensed under the New BSD license. You may not use this file except in
+ * compliance with this license.
+ *
+ * The research leading to these results has received funding from the
+ * European Union's Seventh Framework Programme (FP7/2007-2013) under
+ * grant agreement no. 289016.
+ *
+ * You may obtain a copy of the license at
+ * https://github.com/javihernandez/gwc-chrome/blob/master/LICENSE.txt
+ */
+
 var socketServer = 'http://localhost:8081/browserChannel';
 var allSettings = {};
 
