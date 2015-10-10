@@ -1,63 +1,53 @@
-console.log("Loading background.js ...")
+var socketServer = 'http://localhost:8081/browserChannel';
+var allSettings = {};
 
-var socketServer = 'http://localhost:8081/browserChannel'
-var connected = {};
-
-function connectToGPII (solutionId) {
-    connected[solutionId] = {};
+function connectToGPII (port) {
+    // Here we will replace port.solutionId with port.sender.url
+    var solutionId = port.solutionId;
     var socket = io.connect(socketServer, {'force new connection': true});
 
     socket.on('connect', function (data) {
-        console.log("## on connect");
-        console.log("## Sending solutionId");
         socket.send(solutionId);
-        connected[solutionId] = { connect: true };
     });
 
-    socket.on("connectionSucceeded", function (settings) {       
+    socket.on("connectionSucceeded", function (settings) {
         console.log("## on connectionSucceeded - got: " + JSON.stringify(settings));
-        connected[solutionId].settings = settings;
+        allSettings[solutionId] = settings;
+        port.postMessage({settings: settings});
     });
 
-    socket.on("onBrowserSettingsChanged", function(settings){
+    socket.on("onBrowserSettingsChanged", function (settings) {
         console.log("onBrowserSettingsChanged: " + JSON.stringify(settings));
-        connected[solutionId].settings = settings;
+        allSettings[solutionId] = settings;
+        port.postMessage({settings: settings});
     });
 
-    connected[solutionId].socket = socket;
-
-    socket.socket.on("disconnect", function (request){
+    socket.socket.on("disconnect", function (request) {
         console.log("## on disconnect: " + request);
-        connected[solutionId].connect = false;
     });
-    
-    socket.on("error", function (err){
+
+    socket.on("error", function (err) {
     	console.log("## on error: " + err);
-    	connected[solutionId].connect = false;
+    });
+
+    port.onDisconnect.addListener(function () {
+        console.log("## port has been closed - closing socket");
+        socket.disconnect();
     });
 };
 
-chrome.runtime.onMessageExternal.addListener(function (request, sender, sendResponse) {
-    // New client arrives
-    if (request.requestNewConnection) {
-        console.log("## Received connection request from web page with id '" + request.webId + "'");
-        console.log("## request: " + JSON.stringify(request));
-        console.log("## sender: " + JSON.stringify(sender));
-        // Create a socket connection passing the received webId as solution id
-        connectToGPII(request.webId);
-
-        sendResponse({
-            success: true,
-            settings: connected[request.webId].settings
-        });
-    }
-
-    if (request.requestSettings) {
-        console.log("## Web site with id '" + request.webId + "' has requested its settings");
-        console.log("## connected = " + JSON.stringify(connected[request.webId]));
-        sendResponse({
-            success: true,
-            settings: connected[request.webId].settings
-        });
-    }
+chrome.runtime.onConnectExternal.addListener(function (port) {
+  port.onMessage.addListener(function (msg) {
+      if (msg.type === "connectionRequest") {
+          // In a real scenario, we will check that this connection is trusted.
+          // For instance, we can use port.sender.url to ensure that the solutionId
+          // matches the domain. Also, we can ask to our privacy system whether this
+          // solution is allowed to be used within chrome according to the user's
+          // privacy settings.
+          console.log("## received connection request from: " + JSON.stringify(msg.solutionId));
+          port.solutionId = msg.solutionId;
+          connectToGPII(port);
+          port.postMessage({accepted: true});
+      };
+  });
 });
