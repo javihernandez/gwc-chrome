@@ -22,7 +22,7 @@ function connectToGPII (port) {
     var solutionId = port.solutionId;
     var socket = io.connect(socketServer, {'force new connection': true});
 
-    socket.on('connect', function (data) {
+    socket.on("connect", function (data) {
         socket.send(solutionId);
     });
 
@@ -39,10 +39,12 @@ function connectToGPII (port) {
     });
 
     socket.socket.on("disconnect", function (request) {
+        // We can tell the website what's going on
         console.log("## on disconnect: " + request);
     });
 
     socket.on("error", function (err) {
+        // We can tell the website what's going on
     	console.log("## on error: " + err);
     });
 
@@ -52,18 +54,45 @@ function connectToGPII (port) {
     });
 };
 
+// Taken from http://stackoverflow.com/questions/8498592/extract-root-domain-name-from-string
+function extractDomain (url) {
+    var domain;
+    // Find & remove protocol (http, ftp, etc.) and get domain
+    if (url.indexOf("://") > -1) {
+        domain = url.split('/')[2];
+    } else {
+        domain = url.split('/')[0];
+    }
+
+    // Find & remove port number
+    domain = domain.split(':')[0];
+
+    return domain;
+}
+
 chrome.runtime.onConnectExternal.addListener(function (port) {
-  port.onMessage.addListener(function (msg) {
-      if (msg.type === "connectionRequest") {
-          // In a real scenario, we will check that this connection is trusted.
-          // For instance, we can use port.sender.url to ensure that the solutionId
-          // matches the domain. Also, we can ask to our privacy system whether this
-          // solution is allowed to be used within chrome according to the user's
-          // privacy settings.
-          console.log("## received connection request from: " + JSON.stringify(msg.solutionId));
-          port.solutionId = msg.solutionId;
-          connectToGPII(port);
-          port.postMessage({accepted: true});
-      };
-  });
+    port.onMessage.addListener(function (msg) {
+        if (msg.type === "connectionRequest") {
+            // Right now, we only check that the solutionId coming from the website
+            // matches the domain. Also, we can ask to our privacy system whether this
+            // solution is allowed to be used within chrome according to the user's
+            // privacy settings.
+            console.log("## received connection request from: " + JSON.stringify(msg.solutionId));
+
+            // We'll check that the last two domain levels (i.e. example.com)
+            // are the same. Of course, this may change in the future
+            var domain1 = msg.solutionId.split(".").slice(-2).join(".");
+            var domain2 = extractDomain(port.sender.url).split(".").slice(-2).join(".");
+
+            if (domain1 === domain2) {
+                port.solutionId = msg.solutionId;
+                connectToGPII(port);
+                port.postMessage({accepted: true});
+                console.log("## accepted connection request from: " + JSON.stringify(msg.solutionId));
+            } else {
+                port.postMessage({accepted: false});
+                console.log("## rejected connection request from: " + JSON.stringify(msg.solutionId));
+            }
+        };
+    });
 });
