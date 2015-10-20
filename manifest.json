@@ -12,7 +12,10 @@
   ],
   "externally_connectable": {
     "ids": ["*"],
-    "matches": ["*://*.domain.lan/*"]
+    "matches": [
+      "*://*.domain.lan/*",
+      "*://*.cloud4all.info/*"
+    ]
   },
   "background": {
     "scripts": [
