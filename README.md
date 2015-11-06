@@ -32,7 +32,7 @@ Put this chunk of code somewhere in the source code of your site.
 
 ```
 <script>
-    var extensionId = "igaanphginiejaklcmocedefjghhodoi";
+    var extensionId = "bkoobcbgaajfpjhfkahlmghbeneedodc";
     var solutionId = "my.example.com";
 
     var port = chrome.runtime.connect(extensionId);
