@@ -1,6 +1,7 @@
 {
   "manifest_version": 2,
   "name": "GPII Website connector",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqI2KsdMR7eLu8okjcj8Z+x9LXn7+vircwKte39RncZGCP+5qJRl4gQ/5nbYqj/vqC7/YEK1YljJGyTIo5Na55P68P8BaJm9cuzBme+KRmGBnQ14fkUe4XPI2+ym6CCxvwLaeyZkuF9PX1V4I8Qf981mbYU5LqYbpeyOQ1oXaVG3SGsXwcD+YJQl3fQeeQpuaHMSklaR+rKfi4HqzwtoDwwJOy3Tt5qigP7pQv9dcv+wP2Qj/jhHjvCnZVN77ovPYA1wMZxycLsLNNQp6hlnNoY6vKOdnfWADS1DtR76Ofml+raIgEiNdoTbLz1Rn3RuuNjkCkTKD7Afhrrx/9yY2vwIDAQAB",
   "version": "0.1",
   "content_scripts": [
     {
