@@ -81,10 +81,11 @@ chrome.runtime.onConnectExternal.addListener(function (port) {
 
             // We'll check that the last two domain levels (i.e. example.com)
             // are the same. Of course, this may change in the future
-            var domain1 = msg.solutionId.split(".").reverse().slice(-2).join(".");
-            var domain2 = extractDomain(port.sender.url).split(".").slice(-2).join(".");
+            //var domain1 = msg.solutionId.split(".").reverse().slice(-2).join(".");
+            //var domain2 = extractDomain(port.sender.url).split(".").slice(-2).join(".");
 
-            if (domain1 === domain2) {
+            //if (domain1 === domain2) {
+            if (true) {
                 port.solutionId = msg.solutionId;
                 connectToGPII(port);
                 port.postMessage({accepted: true});
