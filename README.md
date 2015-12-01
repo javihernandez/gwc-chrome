@@ -2,7 +2,7 @@
 
 ## Description
 
-This (experimental) extension allows to any trusted site to receive settings from the GPII personalization framework.
+This (experimental) extension allows any trusted site to receive settings from the GPII personalization framework.
 
 ## Installation
 
@@ -18,7 +18,7 @@ First, your website needs to be integrated with the GPII. [More info](http://blo
 
 ### Add your site to GWC for Chrome
 
-The extension will only accept petitions from trusted sites, for this you need to include your domain name into the extension's [manifest.json](https://github.com/javihernandez/gwc-chrome/blob/master/manifest.json#L15).
+The extension will only accept requests from trusted sites; for this you need to include your domain name into the extension's [manifest.json](https://github.com/javihernandez/gwc-chrome/blob/master/manifest.json#L15).
 
 ```
 "matches": ["*://*.example.com/*"]
@@ -52,9 +52,11 @@ Put this chunk of code somewhere in the source code of your site.
 
 This may change in the future, so stay tuned ...
 
+Note: This code currently only works with the Flow Manager from [GPII's review4 branch](https://github.com/GPII/universal/tree/review4).
+
 ## Contributing
 
-Any question? Found a bug? File an [issue](https://github.com/javihernandez/gwc-chrome/issues).
+Any questions? Found a bug? File an [issue](https://github.com/javihernandez/gwc-chrome/issues).
 
 Do you want to contribute with source code?
 
