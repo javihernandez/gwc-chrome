@@ -16,6 +16,8 @@ In Google Chrome, go to 'Extensions', make sure that the 'Developer mode' checkb
 
 First, your website needs to be integrated with the GPII. [More info](http://blogs.cloud4all.info/developers/information-about-your-solution/)
 
+Note: If you are using the Flow Manager from [GPII's review4 branch](https://github.com/GPII/universal/tree/review4), you only need to integrate your solution into the web solutions registry. If you are using the master branch, you also need to include your solution into the desktop-specific registries (`linux.json` , `win32.json` or both) where you want to use the solution - until [pull request 399 for JIRA ticket GPII-256](https://github.com/GPII/universal/pull/399) has been merged into the master branch.
+
 ### Add your site to GWC for Chrome
 
 The extension will only accept requests from trusted sites; for this you need to include your domain name into the extension's [manifest.json](https://github.com/javihernandez/gwc-chrome/blob/master/manifest.json#L15).
@@ -51,8 +53,6 @@ Put this chunk of code somewhere in the source code of your site.
 ```
 
 This may change in the future, so stay tuned ...
-
-Note: This code currently only works with the Flow Manager from [GPII's review4 branch](https://github.com/GPII/universal/tree/review4).
 
 ## Contributing
 
