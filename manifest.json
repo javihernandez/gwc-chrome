@@ -16,7 +16,8 @@
     "matches": [
       "*://*.domain.lan/*",
       "*://160.40.50.183/*",
-      "*://*.cloud4all.info/*"
+      "*://*.cloud4all.info/*",
+      "*://*.gpii.eu/*"
     ]
   },
   "background": {
